@@ -59,8 +59,19 @@
 
 <script>
   window.addEventListener('keydown', function(e) {
-    var key = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    console.log(key);
+    var key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    var keySound = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    var audio = new Audio(keySound.src);
+    if (key && keySound && audio) {
+      audio.play();
+      key.classList.add('playing');
+    }
+  });
+  window.addEventListener('keyup', function(e) {
+    var key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if (key) {
+      key.classList.remove('playing');
+    }
   });
 </script>
 
