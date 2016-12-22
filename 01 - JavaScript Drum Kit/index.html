@@ -74,6 +74,7 @@
   //   }
   // });
 
+  //better way of handling transition end.
   function removeTransition(e) {
     if (e.propertyName !== 'transform') return;
     e.target.classList.remove('playing');
@@ -89,7 +90,9 @@
     audio.play();
   }
 
+  //funky array.from since it is an iterator
   const keys = Array.from(document.querySelectorAll('.key'));
+  //better way of adding listeners
   keys.forEach(key => key.addEventListener('transitionend', removeTransition));
   window.addEventListener('keydown', playSound);
 </script>
