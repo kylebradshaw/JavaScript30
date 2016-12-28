@@ -24,17 +24,50 @@
       { text: 'Nice Nice Nice!', id: 542328 }
     ];
 
+    function n19(person) {
+      const currYr = (new Date().getFullYear());
+      return (currYr - person.year) >= 19 ? true : false;
+    }
+
     // Some and Every Checks
     // Array.prototype.some() // is at least one person 19?
+    const isAdult = people.some(function(person){
+      return n19(person);
+    });
+    console.log(isAdult, 'are some at least 19?');
+
     // Array.prototype.every() // is everyone 19?
+    const all = people.every(function(person){
+      return n19(person);
+    });
+    console.log(all, 'is everyone at least 19?');
 
     // Array.prototype.find()
     // Find is like filter, but instead returns just the one you are looking for
     // find the comment with the ID of 823423
+    const found = comments.find( comment => comment.id === 823423);
+    console.log(found, 'comment w/ id: 823423')
 
+
+    function outputComments(comments) {
+      const c = []
+      comments.forEach(comment => c.push(comment.text));
+      return c;
+    }
     // Array.prototype.findIndex()
     // Find the comment with this ID
     // delete the comment with the ID of 823423
+    const foundIdx = comments.findIndex( comment => comment.id === 823423);
+    console.log(comments.length, outputComments(comments));
+    comments.splice(foundIdx, 1);
+    console.log(comments.length, outputComments(comments));
+
+
+    const newComments = [
+      ...comments.slice(0, foundIdx),
+      ...comments.slice(foundIdx + 1)
+    ];
+    console.log(newComments,'spreaded');
 
   </script>
 </body>
