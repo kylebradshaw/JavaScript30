@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+  const canvas = document.querySelector('#draw');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  ctx.strokeStyle = '#BADA55';
+  //look on mdn for options
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 1;
+  ctx.globalCompositeOperation = 'existing-content';
+  // ctx.globalCompositeOperation = 'existing-content';
+
+  //controls wether you are drawing or not
+  let isDrawing = false;
+  //need to know start and stop of coordinate to draw
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+  let direction = true;
+
+  function draw(e) {
+    if(!isDrawing) return; //toggle drawing
+    console.log(e);
+    ctx.lineWidth = hue;
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+    //start with x,y and end with x,y
+    ctx.beginPath();
+    //start from
+    ctx.moveTo(lastX, lastY);
+    //go to
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    [lastX, lastY] = [e.offsetX, e.offsetY]
+    hue++;
+
+    hue = (hue >= 360) ? 0 : hue;
+    if(ctx.lineWidth >= 50 || ctx.lineWidth <= 1) {
+      direction = !direction;
+    }
+    if(direction){
+      ctx.lineWidth++;
+    } else {
+      ctx.lineWidth--;
+    }
+
+  }
+
+  //handles click and drag
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY]
+  });
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+
+</script>
+
+<style>
+  html, body {
+    margin:0;
+  }
+</style>
+
+</body>
+</html>
