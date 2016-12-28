@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'Hugo', age: 8 }];
+    const p = document.querySelector('p');
+    function makeGreen() {
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+    // Regular
+    console.log('hi');
+
+    // Interpolated
+    console.log('I am a %s string', '💩');
+    console.log(`Nicee ticks`);
+
+    // Styled
+    console.log('%c I am the best text','font-size: 10px;text-shadow: 1px 1px 0;');
+
+    // warning!
+    console.warn('danger will robinson');
+
+    // Error :|
+    console.error('badd news');
+
+    // Info
+    console.info('crocs eat 3-4 ppl per year');
+
+    // Testing
+    console.assert(1 === 1, 'that is true');
+    console.assert(1 === 2, 'that is false');
+
+    // clearing
+    // console.clear();
+
+    // Viewing DOM Elements
+    console.log(p);
+    console.dir(p);
+
+    // Grouping together
+    dogs.forEach( dog => {
+      console.groupCollapsed(`${dog.name}`);
+      console.log(`${dog.name} is ${dog.age}`)
+      console.log(`${dog.name} is ${dog.age}`)
+      console.groupEnd(`${dog.name}`);
+    });
+
+    // counting
+    console.count('Porter');
+    console.count('Porter');
+    console.count('Kyle');
+    console.count('Kyle');
+    console.count('Porter');
+    console.count('Kyle');
+
+    // timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/kylebradshaw')
+      .then(response => response.json())
+      .then(data => {
+      console.timeEnd('fetching data');
+        console.log(data);
+      });
+
+    //table (ONLY TAKES AN ARRAY W/ SAME PROPERTIES)
+    console.table(dogs);
+
+  </script>
+</body>
+</html>
