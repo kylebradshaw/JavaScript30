@@ -104,6 +104,58 @@
   </div>
 
 <script>
+
+let clickIndex = null;
+const inputs = document.querySelectorAll('input');
+
+Array.from(inputs).forEach((input) => {
+  input.addEventListener('click', (e) => {
+    // console.log(e, 'click');
+    if(e.target.checked === true) {
+      if(e.shiftKey === true) {
+        toggleShiftInputs();
+      } else {
+        findFocus();
+      }
+    } else {
+      clickIndex = null;
+    }
+  });
+});
+
+function findFocus() {
+  Array.from(inputs).forEach((input, index, array) => {
+    if(input === document.activeElement) {
+      clickIndex = index;
+    }
+  });
+}
+
+
+function toggleShiftInputs() {
+  let alpha = clickIndex;
+  findFocus();
+  let omega = clickIndex;
+
+  if(alpha !== null && omega !== null) {
+    if(alpha > omega) { //5, 1
+      //step through descending
+      Array.from(inputs).forEach((input, index) => {
+        if(index <= alpha && index >= omega ) {
+          input.checked = true;
+        }
+      });
+    } else {
+      // step through ascending
+      Array.from(inputs).forEach((input, index) => {
+        if(index >= alpha && index <= omega ) {
+          input.checked = true;
+        }
+      });
+    }
+  }
+}
+
 </script>
 </body>
 </html>
