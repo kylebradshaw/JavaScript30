@@ -105,56 +105,81 @@
 
 <script>
 
-let clickIndex = null;
-const inputs = document.querySelectorAll('input');
+let lastChecked;
+const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
 
-Array.from(inputs).forEach((input) => {
-  input.addEventListener('click', (e) => {
-    // console.log(e, 'click');
-    if(e.target.checked === true) {
-      if(e.shiftKey === true) {
-        toggleShiftInputs();
-      } else {
-        findFocus();
+function handleCheck(e) {
+  console.log(e);
+  //do they have shiftkey down?
+  let inBetween = false; //looking between 2 indexes
+  if(e.shiftKey && this.checked) {
+    //loop through every checkbox
+    checkboxes.forEach(checkbox => {
+      // console.log(checkbox);
+      if(checkbox === this || checkbox === lastChecked) {
+        inBetween = !inBetween; //toggle inbetween at beginning or end of loop (handles reverse order)
       }
-    } else {
-      clickIndex = null;
-    }
-  });
-});
-
-function findFocus() {
-  Array.from(inputs).forEach((input, index, array) => {
-    if(input === document.activeElement) {
-      clickIndex = index;
-    }
-  });
-}
-
-
-function toggleShiftInputs() {
-  let alpha = clickIndex;
-  findFocus();
-  let omega = clickIndex;
-
-  if(alpha !== null && omega !== null) {
-    if(alpha > omega) { //5, 1
-      //step through descending
-      Array.from(inputs).forEach((input, index) => {
-        if(index <= alpha && index >= omega ) {
-          input.checked = true;
-        }
-      });
-    } else {
-      // step through ascending
-      Array.from(inputs).forEach((input, index) => {
-        if(index >= alpha && index <= omega ) {
-          input.checked = true;
-        }
-      });
-    }
+      if (inBetween) {
+        checkbox.checked = true;
+      }
+    });
   }
+  lastChecked = this;
 }
+
+checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+
+
+// let clickIndex = null;
+// const inputs = document.querySelectorAll('input');
+
+// Array.from(inputs).forEach((input) => {
+//   input.addEventListener('click', (e) => {
+//     // console.log(e, 'click');
+//     if(e.target.checked === true) {
+//       if(e.shiftKey === true) {
+//         toggleShiftInputs();
+//       } else {
+//         findFocus();
+//       }
+//     } else {
+//       clickIndex = null;
+//     }
+//   });
+// });
+
+// function findFocus() {
+//   Array.from(inputs).forEach((input, index, array) => {
+//     if(input === document.activeElement) {
+//       clickIndex = index;
+//     }
+//   });
+// }
+
+
+// function toggleShiftInputs() {
+//   let alpha = clickIndex;
+//   findFocus();
+//   let omega = clickIndex;
+
+//   if(alpha !== null && omega !== null) {
+//     if(alpha > omega) { //5, 1
+//       //step through descending
+//       Array.from(inputs).forEach((input, index) => {
+//         if(index <= alpha && index >= omega ) {
+//           input.checked = true;
+//         }
+//       });
+//     } else {
+//       // step through ascending
+//       Array.from(inputs).forEach((input, index) => {
+//         if(index >= alpha && index <= omega ) {
+//           input.checked = true;
+//         }
+//       });
+//     }
+//   }
+// }
 
 </script>
 </body>
