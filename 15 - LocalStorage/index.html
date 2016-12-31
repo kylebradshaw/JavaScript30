@@ -22,13 +22,80 @@
     <form class="add-items">
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
+      <input type="button" class="check-all" value="√">
+      <input type="button" class="uncheck-all" value="x">
     </form>
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const checkAlll = document.querySelector('.check-all');
+  const unCheckAlll = document.querySelector('.uncheck-all');
+  const items = JSON.parse(localStorage.getItem('items')) || []; //get from localStorage or set to empty array
+
+  function addItem(e) {
+    e.preventDefault();
+    const text = this.querySelector('[name="item"]').value;
+    const item = {
+      text, //text: text
+      done: false
+    };
+    console.log(item);
+    items.push(item);
+    populateList(items, itemsList);
+    localStorage.setItem('items', JSON.stringify(items));
+    this.reset(); //resets form
+
+  }
+
+  function populateList(plates = [], platesList) { //make more resilient
+    platesList.innerHTML = plates.map((plate, i) => {
+      //return a string for each plate
+      return `
+        <li>
+          <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+          <label for="item${i}">${plate.text}</label>
+        </li>
+      `
+    }).join('');
+  }
+
+  function toggleDone(e) {
+    //only .plates exists, so we need to listen for event delegation
+    if(!e.target.matches('input')) return; //ONLY WANT INPUT CHECKS
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList); //needed?
+  }
+
+  function checkAll() {
+    console.log('checkall');
+    items.forEach(item => {
+      item.done = true;
+    });
+    populateList(items, itemsList);
+    localStorage.setItem('items', JSON.stringify(items));
+  }
+
+  function unCheckAll() {
+    console.log('uncheckall');
+    items.forEach(item => {
+      item.done = false;
+    });
+    populateList(items, itemsList);
+    localStorage.setItem('items', JSON.stringify(items));
+  }
+
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+  checkAlll.addEventListener('click', checkAll);
+  unCheckAlll.addEventListener('click', unCheckAll);
+
+  //get localStorage
+  populateList(items, itemsList);
 
 </script>
 

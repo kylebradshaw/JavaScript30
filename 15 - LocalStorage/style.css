@@ -58,6 +58,9 @@
       display: none;
     }
 
+
+    /*cool checkbox replacement*/
+    /*LEARN*/
     .plates input + label:before {
       content: '⬜️';
       margin-right: 10px;
@@ -65,6 +68,8 @@
 
     .plates input:checked + label:before {
       content: '🌮';
+      content: '💩';
+      content: '🍔';
     }
 
     .add-items {
