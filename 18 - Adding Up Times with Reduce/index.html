@@ -194,11 +194,11 @@
   }
 
   videos.forEach(video => {
-    const vm = video.dataset.time.split(':')[0];
-    const vs = video.dataset.time.split(':')[1];
+    // hotter way
+    const [mins, secs] = video.dataset.time.split(':').map(parseFloat);
 
-    addMinutes(parseInt(vm));
-    addSeconds(parseInt(vs));
+    addMinutes(mins);
+    addSeconds(secs);
   });
 
   function calcTotal() {
