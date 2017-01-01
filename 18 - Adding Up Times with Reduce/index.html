@@ -182,6 +182,32 @@
     </li>
 
 <script>
+  const videos = document.querySelectorAll('li');
+  let [hours, minutes, seconds] = [0, 0, 0];
+
+  function addMinutes(min) {
+    minutes +=min;
+  }
+
+  function addSeconds(s) {
+    seconds +=s;
+  }
+
+  videos.forEach(video => {
+    const vm = video.dataset.time.split(':')[0];
+    const vs = video.dataset.time.split(':')[1];
+
+    addMinutes(parseInt(vm));
+    addSeconds(parseInt(vs));
+  });
+
+  function calcTotal() {
+    const cS = seconds%60;
+    const cM = Math.floor(seconds/60) + minutes%60;
+    const cH = Math.floor(minutes/60);
+    return `${cH}:${cM}:${cS}`;
+  }
+  console.log(hours, minutes, seconds, '=>', calcTotal());
 </script>
 </body>
 </html>
