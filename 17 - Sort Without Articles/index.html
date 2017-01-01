@@ -46,30 +46,25 @@
 
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
+function stripArticles(phrase) {
+  return phrase.replace(/^(a |the |an )/i).trim();
+};
 
-// 1. fix bands w/o articles?
-// 2. figure indexes
-// 3. set sort algo on indexes
+const bandsSorted = bands.sort((a, b) => stripArticles(a) > stripArticles(b) ? 1 : -1);
 
-const articles = ['The','An','A'];
+// const bandsSortedHTML = bandsSorted.reduce((last, band) => {
+//   return `
+//     ${last}
+//     <li>${band}</li>
+//   `
+// },'')
 
-let bandsSorted = bands.sort(function(a, b) {
-  a = a.replace(/The\s/, '').replace(/An\s/, '').replace(/A\s/, '');
-  b = b.replace(/The\s/, '').replace(/An\s/, '').replace(/A\s/, '');
-  console.log(a, b, a < b, b < a);
-  return (a > b) ? 1 : -1;
-});
+// document.getElementById('bands').innerHTML = bandsSortedHTML;
 
-console.log(bands, bandsSorted);
-
-const bandsSortedHTML = bandsSorted.reduce((last, band) => {
-  return `
-    ${last}
-    <li>${band}</li>
-  `
-},'')
-
-document.getElementById('bands').innerHTML = bandsSortedHTML;
+document.querySelector('#bands').innerHTML =
+  bandsSorted
+    .map(band => `<li>${band}</li>`)
+    .join('');
 
 </script>
 
