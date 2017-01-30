@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Understanding JavaScript's Capture</title>
 </head>
-<body class="bod">
+<body class="body">
 
   <div class="one">
     <div class="two">
@@ -39,7 +39,19 @@
 
 <button></button>
 <script>
+  //event capture goes top down, event bubbling goes up
+  const divs = document.querySelectorAll('div');
 
+  function logText(e) {
+    // e.stopPropagation(); //stop bubbling
+    console.log(this.classList.value);
+  }
+
+  // document.body.addEventListener('click', logText);
+
+  divs.forEach(div => div.addEventListener('click', logText, { capture: false, //true, goes top down
+    once: true //listen for the click and then unbind itself (for future clicks)
+  }));
 </script>
 </body>
 </html>
